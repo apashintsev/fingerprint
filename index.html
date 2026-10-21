@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Fingerprint Lab — что видит сайт о вашем браузере</title>
+    <meta
+      name="description"
+      content="Демо: какие сигналы собирают системы browser fingerprinting и какие значения есть у вашего браузера прямо сейчас."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Outfit:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="bg" aria-hidden="true"></div>
+
+    <header class="site-header">
+      <p class="brand">Fingerprint Lab</p>
+      <p class="tagline">Образовательное демо: что сайты могут узнать о вашем браузере без cookies</p>
+    </header>
+
+    <main>
+      <section class="intro">
+        <h1>Ваш цифровой отпечаток</h1>
+        <p>
+          Системы антифрода и трекинга собирают десятки технических признаков
+          устройства и браузера. По отдельности они не уникальны, но в комбинации
+          часто позволяют узнать «того же» пользователя даже после смены IP или
+          очистки cookies.
+        </p>
+        <div class="id-panel" id="id-panel">
+          <div>
+            <span class="label">Visitor ID (упрощённый хеш)</span>
+            <code id="visitor-id">собираем…</code>
+          </div>
+          <div>
+            <span class="label">Сигналов собрано</span>
+            <strong id="signal-count">—</strong>
+          </div>
+          <div>
+            <span class="label">Энтропия (грубо)</span>
+            <strong id="entropy">—</strong>
+          </div>
+        </div>
+        <p class="hint">
+          Откройте эту же страницу в инкогнито или через VPN: cookies другие, а
+          ID часто останется похожим — именно так работает идея fingerprinting.
+        </p>
+      </section>
+
+      <section class="explain">
+        <h2>Что обычно собирают</h2>
+        <ul class="pillars">
+          <li>
+            <strong>Браузер и ОС</strong>
+            <span>User-Agent, язык, платформа, ядра CPU, память</span>
+          </li>
+          <li>
+            <strong>Экран и окно</strong>
+            <span>Разрешение, DPR, цветовая схема, touch</span>
+          </li>
+          <li>
+            <strong>Рендер (Canvas / WebGL)</strong>
+            <span>Микроразличия GPU и драйверов дают почти уникальный след</span>
+          </li>
+          <li>
+            <strong>Аудио и медиа</strong>
+            <span>AudioContext, кодеки, список устройств</span>
+          </li>
+          <li>
+            <strong>Шрифты и окружение</strong>
+            <span>Какие шрифты реально отрисовываются</span>
+          </li>
+          <li>
+            <strong>Сеть (на сервере)</strong>
+            <span>IP, TLS/JA3 — здесь только то, что видно из JS</span>
+          </li>
+        </ul>
+        <p class="note">
+          У криптобирж и антифрода обычно не «свой скрипт на 50 строк», а
+          коммерческие SDK + серверный анализ (TLS-fingerprint, поведение,
+          граф аккаунтов). Эта страница показывает <em>клиентскую</em> часть —
+          то, что браузер сам отдаёт через JavaScript.
+        </p>
+      </section>
+
+      <section class="signals">
+        <div class="section-head">
+          <h2>Текущие значения у вас</h2>
+          <button type="button" id="copy-btn" class="ghost-btn">Скопировать JSON</button>
+        </div>
+        <div id="groups" class="groups">
+          <p class="loading">Собираем сигналы браузера…</p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        Данные не отправляются на сервер — всё считается локально в вашем
+        браузере. Это учебный прототип, не продакшн-антифрод.
+      </p>
+    </footer>
+
+    <script type="module" src="fingerprint.js"></script>
+  </body>
+</html>
